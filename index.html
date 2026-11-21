@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GeoPulse Spatial — Interactive Pricing Plans</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Layered GIS Background: World Map + Ambient Glow + Interactive 12-Month Orbital Canvas -->
+  <div class="world-map-layer" aria-hidden="true"></div>
+  <div class="bg-contours" aria-hidden="true"></div>
+  <canvas id="gisAnnualCanvas" aria-hidden="true"></canvas>
+
+  <main class="pricing-wrapper">
+    <div class="container">
+      <!-- Header -->
+      <header class="pricing-header">
+        <span class="eyebrow-pill">GeoPulse Spatial Cloud • Annual &amp; Monthly Plans</span>
+        <h1>Choose Your Geospatial Intelligence Plan</h1>
+        <p class="subtitle">
+          Scale from desktop GIS mapping to year-round Sentinel-2 &amp; Landsat cloud processing pipelines.
+        </p>
+
+        <!-- Controls Bar: Filter Buttons + Monthly/Yearly Toggle -->
+        <div class="controls-bar">
+          <!-- Category Filter Buttons -->
+          <div class="filter-group" role="group" aria-label="Filter pricing plans">
+            <button type="button" class="filter-btn active" data-filter="all">All Plans</button>
+            <button type="button" class="filter-btn" data-filter="basic">Basic</button>
+            <button type="button" class="filter-btn" data-filter="premium">Premium</button>
+          </div>
+
+          <!-- Monthly / Yearly Billing Toggle -->
+          <div class="billing-toggle-wrap">
+            <span class="billing-label active" id="monthlyLabel">Monthly</span>
+            <button
+              type="button"
+              id="billingToggle"
+              class="billing-switch"
+              role="switch"
+              aria-checked="false"
+              aria-label="Toggle between monthly and yearly billing"
+            >
+              <span class="switch-thumb"></span>
+            </button>
+            <span class="billing-label" id="yearlyLabel">
+              Yearly <span class="save-badge">Save 20%</span>
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <!-- 4 Interactive Pricing Cards Grid -->
+      <section class="pricing-grid" id="pricingGrid" aria-label="Pricing plans">
+        <!-- Card 1: Basic -->
+        <article class="price-card" data-category="basic">
+          <div class="card-top">
+            <div class="plan-icon indigo" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+                <line x1="8" y1="2" x2="8" y2="18"></line>
+                <line x1="16" y1="6" x2="16" y2="22"></line>
+              </svg>
+            </div>
+            <span class="tier-tag">Basic</span>
+          </div>
+
+          <h2>Carto Starter</h2>
+          <p class="plan-desc">Essential vector mapping and boundary digitization tools for solo GIS learners.</p>
+
+          <div class="price-box">
+            <span class="currency">$</span>
+            <span class="amount" data-monthly="15" data-yearly="12">15</span>
+            <span class="period">/ month</span>
+          </div>
+          <p class="billing-note">Billed monthly</p>
+
+          <ul class="feature-list">
+            <li>Up to 10 interactive Web GIS maps</li>
+            <li>GeoJSON, Shapefile &amp; KML exports</li>
+            <li>5 GB cloud spatial layer storage</li>
+            <li>Standard CartoDB &amp; OSM basemaps</li>
+          </ul>
+
+          <button type="button" class="plan-btn" data-plan="Carto Starter">Get Started</button>
+        </article>
+
+        <!-- Card 2: Basic -->
+        <article class="price-card" data-category="basic">
+          <div class="card-top">
+            <div class="plan-icon indigo" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+            </div>
+            <span class="tier-tag">Basic</span>
+          </div>
+
+          <h2>Field Survey</h2>
+          <p class="plan-desc">Mobile GPS data collection and tehsil-level polygon tracking for field teams.</p>
+
+          <div class="price-box">
+            <span class="currency">$</span>
+            <span class="amount" data-monthly="29" data-yearly="23">29</span>
+            <span class="period">/ month</span>
+          </div>
+          <p class="billing-note">Billed monthly</p>
+
+          <ul class="feature-list">
+            <li>25 active Web GIS dashboards</li>
+            <li>Offline GPS waypoint sync</li>
+            <li>25 GB PostGIS spatial database</li>
+            <li>Custom attribute form builder</li>
+          </ul>
+
+          <button type="button" class="plan-btn" data-plan="Field Survey">Select Field Plan</button>
+        </article>
+
+        <!-- Card 3: Premium (Most Popular) -->
+        <article class="price-card popular" data-category="premium">
+          <div class="popular-badge">Most Popular</div>
+
+          <div class="card-top">
+            <div class="plan-icon copper" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+              </svg>
+            </div>
+            <span class="tier-tag warm">Premium</span>
+          </div>
+
+          <h2>Remote Sensing Pro</h2>
+          <p class="plan-desc">Automated multispectral indices (NDVI, LST, NDWI) and change detection analytics.</p>
+
+          <div class="price-box">
+            <span class="currency">$</span>
+            <span class="amount" data-monthly="59" data-yearly="47">59</span>
+            <span class="period">/ month</span>
+          </div>
+          <p class="billing-note">Billed monthly</p>
+
+          <ul class="feature-list">
+            <li>Unlimited Sentinel-2 &amp; Landsat 9 scenes</li>
+            <li>5-class discrete raster styling engine</li>
+            <li>150 GB high-speed COG raster storage</li>
+            <li>Python &amp; Earth Engine API connectors</li>
+          </ul>
+
+          <button type="button" class="plan-btn primary" data-plan="Remote Sensing Pro">Start Pro Trial</button>
+        </article>
+
+        <!-- Card 4: Premium -->
+        <article class="price-card" data-category="premium">
+          <div class="card-top">
+            <div class="plan-icon copper" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+            </div>
+            <span class="tier-tag warm">Premium</span>
+          </div>
+
+          <h2>Enterprise Earth</h2>
+          <p class="plan-desc">Dedicated spatial cloud infrastructure for regional climate &amp; urban monitoring.</p>
+
+          <div class="price-box">
+            <span class="currency">$</span>
+            <span class="amount" data-monthly="119" data-yearly="95">119</span>
+            <span class="period">/ month</span>
+          </div>
+          <p class="billing-note">Billed monthly</p>
+
+          <ul class="feature-list">
+            <li>Real-time SMAP &amp; GPM rainfall feeds</li>
+            <li>1 TB dedicated GeoServer &amp; PostGIS</li>
+            <li>Custom white-label Leaflet portals</li>
+            <li>24/7 priority GIS engineering support</li>
+          </ul>
+
+          <button type="button" class="plan-btn" data-plan="Enterprise Earth">Contact Sales</button>
+        </article>
+      </section>
+
+      <!-- Interactive Plan Selection Toast Banner -->
+      <div class="selection-toast" id="selectionToast" role="status" aria-live="polite">
+        <span id="toastMessage"></span>
+        <button type="button" id="closeToast" aria-label="Close notification">✕</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

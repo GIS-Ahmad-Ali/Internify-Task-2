@@ -1,0 +1,521 @@
+/* ============================================================
+   1. VARIABLES & BASE THEME (WARM PORCELAIN + NAVY + COPPER)
+   ============================================================ */
+:root {
+  --bg-page: #F5F3EE;
+  --surface: rgba(255, 255, 255, 0.84);
+  --surface-solid: rgba(255, 255, 255, 0.94);
+  --text-primary: #162B4D;
+  --text-body: #334155;
+  --text-muted: #64748B;
+  --accent-navy: #162B4D;
+  --accent-copper: #C85A32;
+  --accent-copper-dark: #A64320;
+  --border-color: rgba(22, 43, 77, 0.14);
+  --shadow-card: 0 14px 34px rgba(22, 43, 77, 0.08);
+  --shadow-hover: 0 24px 48px rgba(22, 43, 77, 0.15);
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-page);
+  color: var(--text-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ============================================================
+   2. LAYERED GIS & ANNUAL ORBITAL BACKGROUND
+   ============================================================ */
+.world-map-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg");
+  background-repeat: no-repeat;
+  background-position: center 48%;
+  background-size: min(1340px, 95vw);
+  opacity: 0.11;
+  filter: sepia(35%) hue-rotate(180deg) saturate(180%) brightness(0.84);
+}
+
+.bg-contours {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 86% 14%, rgba(200, 90, 50, 0.18), transparent 44%),
+    radial-gradient(circle at 14% 86%, rgba(22, 43, 77, 0.16), transparent 46%),
+    radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.35), transparent 65%);
+  transition: background 0.4s ease;
+}
+
+body.yearly-active .bg-contours {
+  background:
+    radial-gradient(circle at 86% 14%, rgba(200, 90, 50, 0.25), transparent 48%),
+    radial-gradient(circle at 14% 86%, rgba(234, 179, 8, 0.15), transparent 46%),
+    radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.28), transparent 65%);
+}
+
+#gisAnnualCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.pricing-wrapper {
+  position: relative;
+  z-index: 2;
+  padding: 3.8rem 0 5rem;
+}
+
+.container {
+  width: 100%;
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ============================================================
+   3. HEADER, FILTER BUTTONS & BILLING TOGGLE
+   ============================================================ */
+.pricing-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 3.2rem;
+}
+
+.eyebrow-pill {
+  display: inline-block;
+  padding: 0.38rem 1rem;
+  border-radius: 999px;
+  background: var(--surface-solid);
+  backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(200, 90, 50, 0.30);
+  color: var(--accent-copper);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  margin-bottom: 1rem;
+}
+
+.pricing-header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.85rem;
+}
+
+.subtitle {
+  font-size: 1.02rem;
+  color: var(--text-muted);
+  margin-bottom: 2.1rem;
+}
+
+.controls-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.35rem 2rem;
+}
+
+/* Filter Buttons (All / Basic / Premium) */
+.filter-group {
+  display: inline-flex;
+  background: var(--surface-solid);
+  backdrop-filter: blur(14px);
+  padding: 0.35rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--border-color);
+  box-shadow: 0 8px 20px rgba(22, 43, 77, 0.06);
+}
+
+.filter-btn {
+  padding: 0.52rem 1.25rem;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.filter-btn:hover {
+  color: var(--accent-copper);
+}
+
+.filter-btn.active {
+  background: var(--accent-navy);
+  color: #FFFFFF;
+  box-shadow: 0 6px 14px rgba(22, 43, 77, 0.22);
+}
+
+/* Monthly / Yearly Switch */
+.billing-toggle-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  background: var(--surface-solid);
+  backdrop-filter: blur(14px);
+  padding: 0.48rem 1.1rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--border-color);
+  box-shadow: 0 8px 20px rgba(22, 43, 77, 0.06);
+}
+
+.billing-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.25s ease;
+}
+
+.billing-label.active {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.save-badge {
+  padding: 0.16rem 0.52rem;
+  border-radius: 999px;
+  background: rgba(200, 90, 50, 0.14);
+  color: var(--accent-copper);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.billing-switch {
+  width: 48px;
+  height: 26px;
+  border-radius: 999px;
+  border: none;
+  background: #CBD5E1;
+  padding: 3px;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.25s ease;
+}
+
+.billing-switch.yearly {
+  background: var(--accent-copper);
+}
+
+.switch-thumb {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.25s ease;
+}
+
+.billing-switch.yearly .switch-thumb {
+  transform: translateX(22px);
+}
+
+/* ============================================================
+   4. PRICING CARDS GRID & HOVER EFFECTS
+   ============================================================ */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+.price-card {
+  position: relative;
+  background: var(--surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid var(--border-color);
+  border-radius: 24px;
+  padding: 1.85rem 1.55rem;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease, background 0.28s ease;
+}
+
+.price-card:hover {
+  transform: translateY(-8px);
+  background: var(--surface-solid);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(200, 90, 50, 0.48);
+}
+
+.price-card.is-hidden {
+  display: none;
+}
+
+.price-card.popular {
+  border: 2px solid var(--accent-copper);
+  background: var(--surface-solid);
+  box-shadow: 0 20px 44px rgba(200, 90, 50, 0.15);
+}
+
+.popular-badge {
+  position: absolute;
+  top: -13px;
+  right: 20px;
+  padding: 0.28rem 0.9rem;
+  border-radius: 999px;
+  background: var(--accent-copper);
+  color: #FFFFFF;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 0 6px 14px rgba(200, 90, 50, 0.35);
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.15rem;
+}
+
+.plan-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.plan-icon.indigo {
+  background: rgba(22, 43, 77, 0.10);
+  color: var(--accent-navy);
+}
+
+.plan-icon.copper {
+  background: rgba(200, 90, 50, 0.14);
+  color: var(--accent-copper);
+}
+
+.tier-tag {
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.26rem 0.72rem;
+  border-radius: 999px;
+  background: rgba(22, 43, 77, 0.08);
+  color: var(--accent-navy);
+}
+
+.tier-tag.warm {
+  background: rgba(200, 90, 50, 0.12);
+  color: var(--accent-copper);
+}
+
+.price-card h2 {
+  font-family: var(--font-display);
+  font-size: 1.32rem;
+  color: var(--text-primary);
+  margin-bottom: 0.45rem;
+}
+
+.plan-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+  min-height: 2.8rem;
+}
+
+.price-box {
+  display: flex;
+  align-items: baseline;
+  gap: 0.15rem;
+  color: var(--text-primary);
+}
+
+.currency {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.amount {
+  font-family: var(--font-display);
+  font-size: 2.65rem;
+  font-weight: 700;
+  line-height: 1;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.amount.price-flash {
+  opacity: 0.35;
+  transform: translateY(-4px);
+}
+
+.period {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-left: 0.2rem;
+}
+
+.billing-note {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+  padding-bottom: 1.15rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.feature-list {
+  list-style: none;
+  margin: 1.2rem 0 1.65rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  flex-grow: 1;
+  font-size: 0.88rem;
+  color: var(--text-body);
+}
+
+.feature-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+}
+
+.feature-list li::before {
+  content: "✓";
+  color: var(--accent-copper);
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.plan-btn {
+  width: 100%;
+  padding: 0.82rem 1.2rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--accent-navy);
+  background: transparent;
+  color: var(--accent-navy);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.plan-btn:hover {
+  background: var(--accent-navy);
+  color: #FFFFFF;
+}
+
+.plan-btn.primary {
+  background: var(--accent-copper);
+  border-color: var(--accent-copper);
+  color: #FFFFFF;
+  box-shadow: 0 10px 22px rgba(200, 90, 50, 0.28);
+}
+
+.plan-btn.primary:hover {
+  background: var(--accent-copper-dark);
+  border-color: var(--accent-copper-dark);
+}
+
+/* ============================================================
+   5. INTERACTIVE SELECTION TOAST
+   ============================================================ */
+.selection-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.95rem 1.25rem;
+  border-radius: 14px;
+  background: var(--accent-navy);
+  color: #FFFFFF;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 16px 36px rgba(22, 43, 77, 0.28);
+}
+
+.selection-toast.show {
+  display: flex;
+  animation: slideUp 0.25s ease;
+}
+
+.selection-toast button {
+  background: transparent;
+  border: none;
+  color: #CBD5E1;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   6. RESPONSIVE BREAKPOINTS (TABLET & MOBILE)
+   ============================================================ */
+@media (max-width: 1060px) {
+  .pricing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .pricing-wrapper {
+    padding: 2.75rem 0 3.5rem;
+  }
+
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .filter-btn {
+    flex: 1;
+    padding: 0.5rem 0.65rem;
+  }
+
+  .selection-toast {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+}
